@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/colorAccent"
+            android:background="@color/colorAccent"
             android:textColor="#FFFFFF"
             android:layout_margin="15dp"
             android:padding="12dp"

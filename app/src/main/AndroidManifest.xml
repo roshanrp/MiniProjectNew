@@ -17,7 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".login" />
-        <activity android:name=".UserContacts"></activity>
+        <activity android:name=".UserContacts" />
+        <activity android:name=".SMSBroadcastReceiver"></activity>
+
+        <receiver android:name=".SMSBroadcastReceiver" />
     </application>
 
 </manifest>

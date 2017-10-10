@@ -33,8 +33,6 @@ public class login extends AppCompatActivity {
             Toast.makeText(this, (CharSequence) "Password must be more than 5 characters", Toast.LENGTH_SHORT).show();
             pass.setText("");
         } else {
-            /////Code for success
-            Toast.makeText(this, (CharSequence) "Success !!!", Toast.LENGTH_LONG).show();
             Intent loginIntent = new Intent(this, UserContacts.class);
             loginIntent.putExtra("Phone Number", phoneNo);
             loginIntent.putExtra("Password", password);

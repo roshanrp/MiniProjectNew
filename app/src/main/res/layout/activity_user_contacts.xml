@@ -1,9 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="com.example.roshan.miniproject.UserContacts">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/contactText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:padding="10dp"
+        android:text="Enter Phone Numbers\nof your trusted contacts" />
+
+    <EditText
+        android:id="@+id/contact1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number|phone"
+        android:layout_margin="15dp"
+        android:maxLength="10"
+        android:padding="10dp"
+        android:hint="Enter 1st Phone Number"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/contact2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number|phone"
+        android:maxLength="10"
+        android:padding="10dp"
+        android:hint="Enter 2nd Phone Number"
+        android:layout_below="@+id/contact1"
+        android:layout_margin="15dp" />
+
+    <Button
+        android:id="@+id/submitContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:padding="10dp"
+        android:textAllCaps="true"
+        android:onClick="SubmitContacts"
+        />
+</RelativeLayout>
