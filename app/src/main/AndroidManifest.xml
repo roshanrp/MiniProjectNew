@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.roshan.miniproject">
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,9 +20,15 @@
         </activity>
         <activity android:name=".login" />
         <activity android:name=".UserContacts" />
-        <activity android:name=".SMSBroadcastReceiver"></activity>
 
-        <receiver android:name=".SMSBroadcastReceiver" />
+        <receiver
+            android:name=".SMSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

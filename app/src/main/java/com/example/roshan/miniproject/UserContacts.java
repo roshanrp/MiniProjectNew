@@ -39,7 +39,7 @@ public class UserContacts extends AppCompatActivity {
             broadcastIntent.putExtra("Password", password);
             broadcastIntent.putExtra("Phone Number 1", phoneNo1);
             broadcastIntent.putExtra("Phone Number 2", phoneNo2);
-            startActivity(broadcastIntent);
+            //startActivity(broadcastIntent);
 
         } else if (num1len != 10) {
             Toast.makeText(this, (CharSequence) "Please Enter 1st Number Valid", Toast.LENGTH_SHORT).show();

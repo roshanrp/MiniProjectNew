@@ -3,29 +3,18 @@ package com.example.roshan.miniproject;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
 import android.widget.Toast;
 
-public class SMSBroadcastReceiver extends AppCompatActivity {
-
-    String phoneNo, password, phoneNo1, phoneNo2;
+public class SMSBroadcastReceiver extends BroadcastReceiver {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_smsbroadcast_receiver);
+    public void onReceive(Context context, Intent intent) {
+        // TODO: This method is called when the BroadcastReceiver is receiving
+        // an Intent broadcast.
 
-        Bundle params = getIntent().getExtras();
-        if (params == null)
-            return;
+        Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
 
-        phoneNo = params.getString("My Phone Number");
-        password = params.getString("Password");
-        phoneNo1 = params.getString("Phone Number 1");
-        phoneNo2 = params.getString("Phone Number 2");
-
-        Toast.makeText(this, phoneNo+password+phoneNo1+phoneNo2, Toast.LENGTH_SHORT).show();
     }
-
 }
