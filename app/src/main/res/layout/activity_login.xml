@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.roshan.miniproject.login"
+    android:padding="16dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hapticFeedbackEnabled="false">
+
+        <ImageView
+            android:id="@+id/loginLogo"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_centerInParent="true"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/phoneNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:ems="10"
+            android:inputType="number|phone"
+            android:hint="Enter Phone Number"
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:layout_above="@+id/passwordLayout"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:id="@+id/passwordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_above="@+id/nextBtn">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:hint="Enter Password"
+                android:background="#FFFFFF"
+
+                android:padding="10dp"
+                android:layout_margin="15dp"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            android:text="Next"
+            android:textAllCaps="true"
+            android:onClick="initLogin"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
