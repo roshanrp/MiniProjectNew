@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class SMSBroadcastReceiver extends AppCompatActivity implements BroadcastReceiver {
+public class SMSBroadcastReceiver extends AppCompatActivity {
 
     String phoneNo, password, phoneNo1, phoneNo2;
 
@@ -28,8 +28,4 @@ public class SMSBroadcastReceiver extends AppCompatActivity implements Broadcast
         Toast.makeText(this, phoneNo+password+phoneNo1+phoneNo2, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-    }
 }
