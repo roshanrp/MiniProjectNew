@@ -57,25 +57,35 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public String getPassword () {
-        SQLiteDatabase db = getWritableDatabase();
+        String password = "";
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM account", null);
-        String password = cursor.getString(cursor.getColumnIndex("Password"));
+        while (cursor.moveToNext()) {
+            password = password + cursor.getString(cursor.getColumnIndex("Password"));
+        }
+
         db.close();
         return password;
     }
 
     public int getContact1 () {
-        SQLiteDatabase db = getWritableDatabase();
+        int contact = 0;
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM account", null);
-        int contact = cursor.getInt(cursor.getColumnIndex("Contact1"));
+        while (cursor.moveToNext()) {
+            contact = cursor.getInt(cursor.getColumnIndex("Contact1"));
+        }
         db.close();
         return contact;
     }
 
     public int getContact2 () {
-        SQLiteDatabase db = getWritableDatabase();
+        int contact = 0;
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM account", null);
-        int contact = cursor.getInt(cursor.getColumnIndex("Contact2"));
+        while (cursor.moveToNext()) {
+            contact = cursor.getInt(cursor.getColumnIndex("Contact2"));
+        }
         db.close();
         return contact;
     }

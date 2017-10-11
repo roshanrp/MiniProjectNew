@@ -35,10 +35,10 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             MyDBHandler myDBHandler = new MyDBHandler(context);
             try {
 
-                Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
+                String password = myDBHandler.getPassword();
+                //Toast.makeText(context, "Hello " + password, Toast.LENGTH_SHORT).show();
 
-                //   String password = myDBHandler.getPassword();
-               /* int contact1 = myDBHandler.getContact1();
+                int contact1 = myDBHandler.getContact1();
                 int contact2 = myDBHandler.getContact2();
                 String string1 = Integer.toString(contact1);
                 String string2 = Integer.toString(contact2);
@@ -47,7 +47,6 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
                 Toast.makeText(context, "Params" + string1 + string2 + string11 + string22, Toast.LENGTH_LONG).show();
 
-*/
 
 //                if ((string1.equals(msgSender) | string11.equals(msgSender)) | (string2.equals(msgSender) | string22.equals(msgSender))) {
                     if (msgBody.equals("helo")) {
