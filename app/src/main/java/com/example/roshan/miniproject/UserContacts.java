@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 public class UserContacts extends AppCompatActivity {
 
+    MyDBHandler myDBHandler;
     String phoneNo;
     String password;
     @Override
@@ -22,6 +23,7 @@ public class UserContacts extends AppCompatActivity {
 
         phoneNo = userCredentials.getString("Phone Number");
         password = userCredentials.getString("Password");
+        this.myDBHandler = new MyDBHandler(this);
     }
 
     public void SubmitContacts (View v) {
@@ -40,6 +42,7 @@ public class UserContacts extends AppCompatActivity {
             broadcastIntent.putExtra("Phone Number 1", phoneNo1);
             broadcastIntent.putExtra("Phone Number 2", phoneNo2);
             //startActivity(broadcastIntent);
+            this.myDBHandler.enterContacts(phoneNo1, phoneNo2);
 
         } else if (num1len != 10) {
             Toast.makeText(this, (CharSequence) "Please Enter 1st Number Valid", Toast.LENGTH_SHORT).show();

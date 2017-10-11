@@ -9,10 +9,22 @@ import android.widget.Toast;
 
 public class login extends AppCompatActivity {
 
+    MyDBHandler myDBHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.myDBHandler = new MyDBHandler(this);
+
+        //CHECK PERMISSION FOR SMS
+       /* if (VERSION.SDK_INT >= 23) {
+            Builder builder = new Builder(this);
+            builder = new Builder(this, R.style.MyDialogTheme);
+            builder.setTitle("Request Permission");
+            builder.setMessage("Please Grant SMS Permission.");
+            builder.setPositiveButton("Give Permission", new C02371());
+            builder.show();
+        }*/
     }
 
     public void initLogin(View v) {
@@ -33,6 +45,7 @@ public class login extends AppCompatActivity {
             Toast.makeText(this, (CharSequence) "Password must be more than 5 characters", Toast.LENGTH_SHORT).show();
             pass.setText("");
         } else {
+            this.myDBHandler.enterUserDetails(phoneNo, password);
             Intent loginIntent = new Intent(this, UserContacts.class);
             loginIntent.putExtra("Phone Number", phoneNo);
             loginIntent.putExtra("Password", password);
