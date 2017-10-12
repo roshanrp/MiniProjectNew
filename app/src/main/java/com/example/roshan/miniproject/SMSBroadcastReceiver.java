@@ -13,15 +13,15 @@ import android.widget.Toast;
 
 public class SMSBroadcastReceiver extends BroadcastReceiver {
 
+    String phoneNo, password, contact1, contact2;
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
 
         Bundle bundle = intent.getExtras();
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (bundle == null)
             return;
+
         Object[] pdus = (Object[]) bundle.get("pdus");
         for (int i = 0; i < pdus.length; i++) {
             SmsMessage smsMessage;
@@ -35,29 +35,22 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             MyDBHandler myDBHandler = new MyDBHandler(context);
             try {
 
-                String password = myDBHandler.getPassword();
-                //Toast.makeText(context, "Hello " + password, Toast.LENGTH_SHORT).show();
+                password = myDBHandler.getPassword();
+                contact1 = myDBHandler.getContact1();
+                contact2 = myDBHandler.getContact2();
 
-                int contact1 = myDBHandler.getContact1();
-                int contact2 = myDBHandler.getContact2();
-                String string1 = Integer.toString(contact1);
-                String string2 = Integer.toString(contact2);
-                String string11 = ("+91") + Integer.toString(contact1);
-                String string22 = ("+91") + Integer.toString(contact2);
+                if (msgSender.contains(contact1) | msgSender.contains(contact2)) {
+                    Toast.makeText(context, "Woah", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(context, "Params" + string1 + string2 + string11 + string22, Toast.LENGTH_LONG).show();
-
-
-//                if ((string1.equals(msgSender) | string11.equals(msgSender)) | (string2.equals(msgSender) | string22.equals(msgSender))) {
-                    if (msgBody.equals("helo")) {
+                    if (msgBody.equals(password)) {
                         Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
 
                         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                         final Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
-                        r.play();
+                        //r.play();
 
                     }
-//                }
+                }
 
 
             } catch (NullPointerException e) {
