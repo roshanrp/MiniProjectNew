@@ -1,18 +1,33 @@
 package com.example.roshan.miniproject;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaCodec;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
 public class SMSBroadcastReceiver extends BroadcastReceiver {
@@ -24,6 +39,13 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELECOM_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        Camera camera;
+        Parameters parameters;
 
         if (bundle == null)
             return;
@@ -51,10 +73,9 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                             if (splitArray[0].equals(password)) {
                                 msgBody = splitArray[1];
 
-                                Toast.makeText(context, "Passed", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(context, "Passed", Toast.LENGTH_SHORT).show();
                                 if (Pattern.matches(".?ring.?", msgBody)) {
                                     audioManager.setStreamVolume(AudioManager.RINGER_MODE_NORMAL, audioManager.getStreamMaxVolume(AudioManager.RINGER_MODE_NORMAL), 0);
-                                    //audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                                     final Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
                                     r.play();
                                 } else if (Pattern.matches(".?turn\\son\\swifi.?", msgBody)) {
@@ -62,8 +83,26 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                                 } else if (Pattern.matches(".?turn\\soff\\swifi.?", msgBody)) {
                                     wifiManager.setWifiEnabled(false);
                                 } else if (Pattern.matches(".?turn\\son\\sdata.?", msgBody)) {
+                                    try {
+                                        final Class conmanClass = Class.forName(connectivityManager.getClass().getName());
+                                        final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+                                        iConnectivityManagerField.setAccessible(true);
+                                        final Object iConnectivityManager = iConnectivityManagerField.get(connectivityManager);
+                                        final Class iConnectivityManagerClass = Class.forName(
+                                                iConnectivityManager.getClass().getName());
+                                        final Method setMobileDataEnabledMethod = iConnectivityManagerClass
+                                                .getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+                                        setMobileDataEnabledMethod.setAccessible(true);
 
-                                } else if (Pattern.matches(".?turn\\son\\sdata.?", msgBody)) {
+                                        setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                } else if (Pattern.matches(".?turn\\soff\\sdata.?", msgBody)) {
+
+
+
 
                                 } else if (Pattern.matches(".?silent\\smode.?", msgBody)) {
                                     audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
@@ -71,48 +110,32 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                                     audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
                                 } else if (Pattern.matches(".?general\\smode.?", msgBody)) {
                                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                                } else if (Pattern.matches(".?turn\\son\\sflashlight.?", msgBody)) {
+                                    boolean hasFlash = context.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+                                    if(hasFlash) {
+                                        Toast.makeText(context, "Flash", Toast.LENGTH_SHORT).show();
+                                        camera = Camera.open();
+                                        parameters = camera.getParameters();
+                                        parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
+                                        camera.setParameters(parameters);
+                                        camera.startPreview();
+                                    }
+                                } else if (Pattern.matches(".?turn\\soff\\sflashlight.?", msgBody)) {
+                                    Toast.makeText(context, "Flash", Toast.LENGTH_SHORT).show();
+                                    camera = Camera.open();
+                                    parameters = camera.getParameters();
+                                    parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
+                                    camera.setParameters(parameters);
+                                    camera.stopPreview();
+                                    camera.release();
+                                    camera = null;
                                 }
                             }
-
-
-
                         }
-
-
-
                 }
-
-
             }
         } catch (NullPointerException e) {
             Toast.makeText(context, (CharSequence) "Null Pointer Exception", Toast.LENGTH_SHORT).show();
         }
     }
 }
-
-
-/*
-try {
-                                    camera = Camera.open();
-                                    Camera.Parameters p = camera.getParameters();
-                                    p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                                    camera.setParameters(p);
-                                    camera.startPreview();
-                                }catch(Exception e){
-                                    e.printStackTrace();
-                                }
-
-
-
- final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                                final Class conmanClass = Class.forName(conman.getClass().getName());
-                                final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-                                iConnectivityManagerField.setAccessible(true);
-                                final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-                                final Class iConnectivityManagerClass =  Class.forName(iConnectivityManager.getClass().getName());
-                                final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-                                setMobileDataEnabledMethod.setAccessible(true);
-
-                                setMobileDataEnabledMethod.invoke(iConnectivityManager, true);
-
- */

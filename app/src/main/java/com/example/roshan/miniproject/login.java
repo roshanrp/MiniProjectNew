@@ -1,6 +1,10 @@
 package com.example.roshan.miniproject;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog.Builder;
+
+
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,15 +20,10 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         this.myDBHandler = new MyDBHandler(this);
 
-        //CHECK PERMISSION FOR SMS
-       /* if (VERSION.SDK_INT >= 23) {
-            Builder builder = new Builder(this);
-            builder = new Builder(this, R.style.MyDialogTheme);
-            builder.setTitle("Request Permission");
-            builder.setMessage("Please Grant SMS Permission.");
-            builder.setPositiveButton("Give Permission", new C02371());
-            builder.show();
-        }*/
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            Toast.makeText(this, "Please grant us SMS permissions", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void initLogin(View v) {
